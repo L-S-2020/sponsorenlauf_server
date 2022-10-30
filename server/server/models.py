@@ -4,7 +4,7 @@ from django.utils import timezone
 
 # Create your models here.
 class Student(models.Model):
-    code = models.CharField(max_length=6, primary_key=True)
+    code = models.CharField(max_length=6, primary_key=True, unique=True)
     name = models.CharField(max_length=200)
     klassenstufe = models.IntegerField()
     klasse = models.CharField(max_length=1)
