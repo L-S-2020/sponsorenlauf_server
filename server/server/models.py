@@ -6,8 +6,6 @@ from django.utils import timezone
 class Student(models.Model):
     code = models.CharField(max_length=6, primary_key=True, unique=True)
     name = models.CharField(max_length=200)
-    klassenstufe = models.IntegerField()
-    klasse = models.CharField(max_length=1)
     lastseen = models.TimeField(auto_now=True)
     kilometer = models.IntegerField(default=0)
 
