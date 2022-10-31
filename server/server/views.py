@@ -60,7 +60,7 @@ def start(request):
         gesamt = School.objects.get()
         gesamt.kilometer = 0
         gesamt.save()
-        Model.objects.all().delete()
+        Runde.objects.all().delete()
         return JsonResponse({"status": "ok"})
     else:
         return JsonResponse({"status": "unauthorized"})
