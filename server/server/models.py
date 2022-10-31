@@ -26,3 +26,9 @@ class Runde(models.Model):
 
     def __str__(self):
         return self.number
+
+class Key(models.Model):
+    key = models.CharField(max_length=200, primary_key=True, unique=True)
+
+    def __str__(self):
+        return self.key
