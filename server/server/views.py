@@ -1,6 +1,6 @@
 from django.http import JsonResponse
 from django.shortcuts import render
-from .models import Student, Runde, School
+from .models import Student, Runde, School, key
 from django.utils import timezone, dateformat
 
 
@@ -26,7 +26,7 @@ def create(request, name):
     if key.objects.get(key=authorization) is not None:
         random_number = Student.objects.make_random_password(length=6, allowed_chars='1234567890')
         while Student.objects.filter(code=random_number):
-           random_number = User.objects.make_random_password(length=6, allowed_chars='1234567890')
+            random_number = Student.objects.make_random_password(length=6, allowed_chars='1234567890')
     
         schüler = Student(code=random_number, name=name,)
         schüler.save()
@@ -52,7 +52,7 @@ def leaderboard(request):
 def start(request):
     authorization = request.META.get('HTTP_AUTHORIZATION', None)
     if key.objects.get(key=authorization) is not None:
-        schüler = Students.objects.all()
+        schüler = Student.objects.all()
         for i in schüler:
             i.kilometer = 0
             i.lastseen = timezone.now()
@@ -60,7 +60,14 @@ def start(request):
         gesamt = School.objects.get()
         gesamt.kilometer = 0
         gesamt.save()
-        Model.objects.all().delete()
+        Runde.objects.all().delete()
+        return JsonResponse({"status": "ok"})
+    else:
+        return JsonResponse({"status": "unauthorized"})
+
+def test(request):
+    authorization = request.META.get('HTTP_AUTHORIZATION', None)
+    if key.objects.get(key=authorization) is not None:
         return JsonResponse({"status": "ok"})
     else:
         return JsonResponse({"status": "unauthorized"})
