@@ -1,0 +1,64 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Sponsorenlauf 2023</title>
+    <link rel="stylesheet" href="{% static 'assets/bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/fonts/fontawesome-all.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/Navbar-Right-Links-Dark-icons.css' %}">
+</head>
+
+<body style="background: rgb(33,37,41);">
+    <nav class="navbar navbar-dark navbar-expand-md bg-dark py-3">
+        <div class="container"><img src="{% static 'assets/img/LogoGSG-1952467691.png' %}" width="60" height="70" style="width: 60px;"><a class="navbar-brand d-flex align-items-center" href="#" style="text-align: right;margin: 20px;"><span style="text-align: right;margin: 5px;position: relative;">Sponsorenlauf 2023</span></a>
+            <div class="collapse navbar-collapse" id="navcol-5">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"></li>
+                    <li class="nav-item"></li>
+                    <li class="nav-item"></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container" style="background: #212529;">
+        <div class="row">
+            <div class="col-md-12">
+                <p style="color: rgb(255,255,255);">Gib deine Nummer ein, um deine persönlichen Statistiken abzurufen&nbsp;</p><input type="number" id="input-code" style="margin: 15px;"><button class="btn btn-primary" id="code-button" type="button"><i class="fas fa-arrow-right"></i></button>
+            </div>
+        </div>
+    </div>
+    <div class="container py-4 py-xl-5 d-flex flex-column min-vh-100" style="background: var(--bs-gray-900);">
+        <div class="text-center text-white-50 bg-primary border rounded border-0 p-3">
+            <div class="row row-cols-2 row-cols-md-4">
+                <div class="col">
+                    <div class="p-3">
+                        <h4 class="display-5 fw-bold text-white mb-0">{{ schüler }}</h4>
+                        <p class="mb-0">Teilnehmende Schüler</p>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="p-3">
+                        <h4 class="display-5 fw-bold text-white mb-0">{{ kilometer }}</h4>
+                        <p class="mb-0">gerannte Kilometer</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="text-center bg-dark">
+        <div class="container text-white py-4 py-lg-5">
+            <ul class="list-inline">
+                <li class="list-inline-item me-4"><a class="link-light" href="https://www.gsg-waldkirch.de/impressum.html">Impressum</a></li>
+                <li class="list-inline-item me-4"><a class="link-light" href="https://www.gsg-waldkirch.de/datenschutz.html">Datenschutz</a></li>
+                <li class="list-inline-item"></li>
+            </ul>
+            <p class="text-muted mb-0">Copyright © 2023 Sponsorenlauf-AK des GSG Waldkirch</p>
+        </div>
+    </footer>
+    <script src="{% static 'assets/bootstrap/js/bootstrap.min.js' %}"></script>
+</body>
+
+</html>
