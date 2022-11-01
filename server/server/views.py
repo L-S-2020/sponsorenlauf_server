@@ -71,10 +71,3 @@ def test(request):
         return JsonResponse({"status": "ok"})
     else:
         return JsonResponse({"status": "unauthorized"})
-
-def test(request):
-    authorization = request.META.get('HTTP_AUTHORIZATION', None)
-    if key.objects.get(key=authorization) is not None:
-        return JsonResponse({"status": "ok"})
-    else:
-        return JsonResponse({"status": "unauthorized"})
