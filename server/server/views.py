@@ -11,7 +11,7 @@ from django.contrib import messages
 # Create your views here.
 def scanned(request, code):
     authorization = request.META.get('HTTP_AUTHORIZATION', None)
-    if key.objects.get(key=authorization).exists():
+    if key.objects.get(key=authorization) is not None:
         schüler = Student.objects.get(code=code)
         if time.time()-schüler.lastseen > 135:
             schüler.kilometer += 1
@@ -33,7 +33,7 @@ def scanned(request, code):
 
 def create(request, name):
     authorization = request.META.get('HTTP_AUTHORIZATION', None)
-    if key.objects.get(key=authorization).exists():
+    if key.objects.get(key=authorization) is not None:
         random_number = User.objects.make_random_password(length=6, allowed_chars='1234567890')
         while Student.objects.filter(code=random_number):
             random_number = User.objects.make_random_password(length=6, allowed_chars='1234567890')
@@ -82,7 +82,7 @@ def leaderboard(request):
 
 def start(request):
     authorization = request.META.get('HTTP_AUTHORIZATION', None)
-    if key.objects.get(key=authorization).exists():
+    if key.objects.get(key=authorization) is not None:
         schüler = Student.objects.all()
         for i in schüler:
             i.kilometer = 0
@@ -98,7 +98,7 @@ def start(request):
 
 def test(request):
     authorization = request.META.get('HTTP_AUTHORIZATION', None)
-    if key.objects.get(key=authorization).exists():
+    if key.objects.get(key=authorization) is not None:
         return JsonResponse({"status": "ok"})
     else:
         return JsonResponse({"status": "unauthorized"})
