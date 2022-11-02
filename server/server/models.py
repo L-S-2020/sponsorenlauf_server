@@ -24,7 +24,7 @@ class Runde(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     number = models.IntegerField()
     endtime = models.TimeField(auto_now_add=True)
-    time = models.FloatField()
+    time = models.CharField(max_length=200)
 
     def __str__(self):
         return str(self.number)
