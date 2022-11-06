@@ -1,0 +1,51 @@
+import os, requests, json, time, colorama
+from colorama import Fore
+import winsound
+from dotenv import load_dotenv
+
+load_dotenv()
+key = os.environ.get('key')
+url = 'http://127.0.0.1:8000/api/'
+
+r = requests.get(url + 'test', headers={'Authorization': key})
+r_text = json.loads(r.text)
+if r_text['status'] == 'ok':
+    print(Fore.GREEN + 'Bereit!')
+else:
+    print(Fore.RED + 'Authentifizierung fehlgeschlagen')
+
+try:
+    while True:
+        code = input(Fore.WHITE + 'Code: ')
+        if not code.isdigit():
+            break
+        t = requests.get(url + 'scanned/' + code, headers={'Authorization': key})
+        if t.status_code == 200:
+            t_text = json.loads(t.text)
+            name = t_text['name']
+            if t_text['status'] == 'ok':
+                runde = t_text['kilometer']
+                print(Fore.GREEN + 'Erfolgreich gescanned!')
+                print('Name: ' + name + ' Runde: ' + str(runde))
+                print()
+                winsound.PlaySound("success.wav", winsound.SND_ASYNC | winsound.SND_ALIAS )
+            elif t_text['status'] == 'zu schnell':
+                print(Fore.YELLOW + name + ' war zu schnell!!! (Scan wird nicht gewertet)')
+                print()
+                winsound.PlaySound("zu-schnell.wav", winsound.SND_ASYNC | winsound.SND_ALIAS )
+        else:
+            print(Fore.RED + 'Server Error!')
+            print()
+            winsound.PlaySound("error.wav", winsound.SND_ASYNC | winsound.SND_ALIAS )
+finally:
+    print("Programm gestoppt. (Input war keine Zahl!)")
+
+#c = requests.get(url + 'create/test', headers={'Authorization': key})
+#c_text = json.loads(c.text)
+#print(c_text["code"])
+    
+
+    
+#h = requests.get(url + 'start', headers={'Authorization': key})
+#h_text = json.loads(h.text)
+#print(h_text)
