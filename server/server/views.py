@@ -37,13 +37,13 @@ def create(request, name):
         random_number = User.objects.make_random_password(length=6, allowed_chars='1234567890')
         while Student.objects.filter(code=random_number):
             random_number = User.objects.make_random_password(length=6, allowed_chars='1234567890')
-    
+
         schüler = Student(code=random_number, name=name, lastseen=time.time())
         schüler.save()
         return JsonResponse({"status": "ok", "code": schüler.code, "name": schüler.name})
     else:
         return JsonResponse({"status": "unauthorized"})
-    
+
 
 def main(request):
     if request.method == "POST":
