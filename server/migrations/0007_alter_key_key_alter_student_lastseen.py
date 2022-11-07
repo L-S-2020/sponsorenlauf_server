@@ -6,18 +6,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('server', '0007_alter_key_key_alter_student_lastseen'),
+        ('s', '0006_alter_key_key_alter_runde_time_and_more'),
     ]
 
     operations = [
         migrations.AlterField(
             model_name='key',
             name='key',
-            field=models.CharField(default='zaXYMWqVPcisymhP7rcdPPxitvm3lBUF', max_length=200, primary_key=True, serialize=False, unique=True),
+            field=models.CharField(default='ns0xe0XSl6dKu82JmzbiWCEoVhGmOBoy', max_length=200, primary_key=True, serialize=False, unique=True),
         ),
         migrations.AlterField(
             model_name='student',
             name='lastseen',
-            field=models.FloatField(default=1667301909.9339647),
+            field=models.FloatField(default=1667301908.594335),
         ),
     ]
