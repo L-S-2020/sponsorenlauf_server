@@ -39,4 +39,3 @@ try:
             winsound.PlaySound("error.wav", winsound.SND_ASYNC | winsound.SND_ALIAS )
 finally:
     print("Programm gestoppt. (Input war keine Zahl!)")
-
