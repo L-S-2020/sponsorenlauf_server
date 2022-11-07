@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('server', '0004_alter_key_key_alter_student_lastseen'),
+        ('s', '0004_alter_key_key_alter_student_lastseen'),
     ]
 
     operations = [
