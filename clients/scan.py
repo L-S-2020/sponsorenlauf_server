@@ -1,4 +1,4 @@
-import os, requests, json, time, colorama
+import os, requests, json, colorama
 from colorama import Fore
 import winsound
 from dotenv import load_dotenv
@@ -40,12 +40,3 @@ try:
 finally:
     print("Programm gestoppt. (Input war keine Zahl!)")
 
-#c = requests.get(url + 'create/test', headers={'Authorization': key})
-#c_text = json.loads(c.text)
-#print(c_text["code"])
-    
-
-    
-#h = requests.get(url + 'start', headers={'Authorization': key})
-#h_text = json.loads(h.text)
-#print(h_text)
