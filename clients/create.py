@@ -1,4 +1,4 @@
-import requests, json
+import requests, json, os
 from barcode import ITF
 from barcode.writer import ImageWriter
 from reportlab.pdfgen import canvas
