@@ -13,7 +13,7 @@
 
 <body style="background: rgb(33,37,41);">
     <nav class="navbar navbar-dark navbar-expand-md bg-dark py-3">
-        <div class="container"><img src="{% static 'assets/img/LogoGSG-1952467691.png' %}" width="60" height="70" style="width: 60px;"><a class="navbar-brand d-flex align-items-center" href="/static" style="text-align: right;margin: 20px;"><span style="text-align: right;margin: 5px;position: relative;">Sponsorenlauf 2023</span></a>
+        <div class="container"><img src="{% static 'assets/img/LogoGSG-1952467691.png' %}" width="60" height="70" style="width: 60px;"><a class="navbar-brand d-flex align-items-center" href="/" style="text-align: right;margin: 20px;"><span style="text-align: right;margin: 5px;position: relative;">Sponsorenlauf 2023</span></a>
             <div class="collapse navbar-collapse" id="navcol-5">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"></li>
@@ -31,15 +31,15 @@
         <p style="color: var(--bs-gray-100);">Platz in der Rangliste (nach Kilometer): </p>
         <p style="color: var(--bs-gray-100);font-weight: bold;">{{ platz }}</p>
         <h1 style="color: var(--bs-gray-100);font-style: italic;">Runden</h1>
-    </div>
-    {% for runde in runden %}
-    <div class="card" style="border-width: 4px;border-color: var(--bs-blue);border-radius: 5px;">
-        <div class="card-body" style="background: #212529;border-color: var(--bs-blue);">
-            <h4 class="card-title" style="color: var(--bs-card-bg);">Uhrzeit: {{ runde.endtime }}</h4>
-            <p style="color: var(--bs-card-bg);">Zeit (HH:MM:SS) : {{ runde.time }}</p>
+        {% for runde in runden %}
+        <div class="card" style="border-width: 4px;border-color: var(--bs-blue);border-radius: 5px;">
+            <div class="card-body" style="background: #212529;border-color: var(--bs-blue);">
+                <h4 class="card-title" style="color: var(--bs-card-bg);">Uhrzeit: {{ runde.endtime }}</h4>
+                <p style="color: var(--bs-card-bg);">Zeit (HH:MM:SS) : {{ runde.time }}</p>
+            </div>
         </div>
+        {% endfor %}
     </div>
-    {% endfor %}
     <footer class="text-center bg-dark">
         <div class="container text-white py-4 py-lg-5">
             <ul class="list-inline">
