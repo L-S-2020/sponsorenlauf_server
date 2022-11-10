@@ -14,7 +14,7 @@ def scanned(request, code):
     if key.objects.get(key=authorization) is not None:
         schüler = Student.objects.get(code=code)
         if time.time()-schüler.lastseen > 135:
-            schüler.kilometer += 1
+            schüler.kilometer += 0.5
             seconds = time.time()-schüler.lastseen
             minutes = timedelta(seconds=seconds)
             runde = Runde.objects.create(student=schüler, number=schüler.kilometer, time=minutes)
@@ -23,7 +23,7 @@ def scanned(request, code):
             schüler.lastseen = time.time()
             schüler.save()
             gesamt = School.objects.get()
-            gesamt.kilometer += 1
+            gesamt.kilometer += 0.5
             gesamt.save()
             return JsonResponse({"status": "ok", "kilometer": schüler.kilometer, "name": schüler.name})
         else:
