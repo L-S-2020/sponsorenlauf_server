@@ -102,3 +102,6 @@ def test(request):
         return JsonResponse({"status": "ok"})
     else:
         return JsonResponse({"status": "unauthorized"})
+
+def loaderio-f163bfc574f8f554492e953773602c6d:
+    return HttpResponse('loaderio-f163bfc574f8f554492e953773602c6d', content_type='text/plain')
