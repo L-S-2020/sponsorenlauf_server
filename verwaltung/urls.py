@@ -9,5 +9,5 @@ urlpatterns = [
     path("leaderboard", views.leaderboard, name="leaderboard"),
     path("api/start", views.start, name="start"),
     path("api/test", views.test, name="test"),
-    path("loaderio-f163bfc574f8f554492e953773602c6d", views.loaderio-f163bfc574f8f554492e953773602c6d, name="loaderio-f163bfc574f8f554492e953773602c6d")
+    path("loaderio", views.loaderio, name="loaderio")
 ]
