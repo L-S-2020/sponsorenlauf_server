@@ -8,9 +8,17 @@ class Student(models.Model):
     name = models.CharField(max_length=200)
     lastseen = models.FloatField(default=time.time())
     kilometer = models.IntegerField(default=0)
+    klasse = models.ForeignKey('Klasse', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.code
+
+class Klasse(models.Model):
+    name = models.CharField(max_length=200)
+    kilometer = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.name
 
 class School(models.Model):
     kilometer = models.IntegerField(default=0)

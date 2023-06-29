@@ -1,7 +1,7 @@
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, redirect
 import time
-from .models import Student, Runde, School, key
+from .models import Student, Runde, School, key, Klasse
 from django.contrib.auth.models import User
 from .forms import Codeform
 from datetime import timedelta
@@ -9,6 +9,7 @@ from django.contrib import messages
 
 
 # Create your views here.
+#
 def scanned(request, code):
     authorization = request.META.get('HTTP_AUTHORIZATION', None)
     if key.objects.get(key=authorization) is not None:
@@ -31,18 +32,21 @@ def scanned(request, code):
     else:
         return JsonResponse({"status": "unauthorized"})
 
-def create(request, name):
+def create(request, name, klasse, code):
     authorization = request.META.get('HTTP_AUTHORIZATION', None)
     if key.objects.get(key=authorization) is not None:
-        random_number = User.objects.make_random_password(length=6, allowed_chars='1234567890')
-        while Student.objects.filter(code=random_number):
-            random_number = User.objects.make_random_password(length=6, allowed_chars='1234567890')
-
-        schüler = Student(code=random_number, name=name, lastseen=time.time())
+        schüler = Student(code=code, name=name, Klasse=Klasse.objects.filter(name=klasse) ,lastseen=time.time())
         schüler.save()
-        return JsonResponse({"status": "ok", "code": schüler.code, "name": schüler.name})
-    else:
-        return JsonResponse({"status": "unauthorized"})
+        return JsonResponse({"status": "created", "code": schüler.code, "name": schüler.name, "klasse": schüler.Klasse.name})
+    return JsonResponse({"status": "unauthorized"})
+
+def createklasse(request, name):
+    authorization = request.META.get('HTTP_AUTHORIZATION', None)
+    if key.objects.get(key=authorization) is not None:
+        klasse = Klasse(name=name)
+        klasse.save()
+        return JsonResponse({"status": "created", "name": klasse.name})
+    return JsonResponse({"status": "unauthorized"})
 
 
 def main(request):
@@ -103,5 +107,3 @@ def test(request):
     else:
         return JsonResponse({"status": "unauthorized"})
 
-def loaderio(request):
-    return HttpResponse('loaderio-f163bfc574f8f554492e953773602c6d', content_type='text/plain')
