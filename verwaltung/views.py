@@ -1,8 +1,7 @@
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
 import time
 from .models import Student, Runde, School, key, Klasse
-from django.contrib.auth.models import User
 from .forms import Codeform
 from datetime import timedelta
 from django.contrib import messages
@@ -14,7 +13,7 @@ def scanned(request, code):
     authorization = request.META.get('HTTP_AUTHORIZATION', None)
     if key.objects.get(key=authorization) is not None:
         schüler = Student.objects.get(code=code)
-        if time.time()-schüler.lastseen > 135:
+        if time.time()-schüler.lastseen > 50:
             schüler.kilometer += 0.5
             seconds = time.time()-schüler.lastseen
             minutes = timedelta(seconds=seconds)
@@ -35,9 +34,12 @@ def scanned(request, code):
 def create(request, name, klasse, code):
     authorization = request.META.get('HTTP_AUTHORIZATION', None)
     if key.objects.get(key=authorization) is not None:
-        schüler = Student(code=code, name=name, Klasse=Klasse.objects.filter(name=klasse) ,lastseen=time.time())
+        if not Klasse.objects.filter(name=klasse).exists():
+            return JsonResponse({"status": "klasse nicht gefunden"})
+        klasse = Klasse.objects.get(name=klasse)
+        schüler = Student(code=code, name=name, klasse=klasse ,lastseen=time.time())
         schüler.save()
-        return JsonResponse({"status": "created", "code": schüler.code, "name": schüler.name, "klasse": schüler.Klasse.name})
+        return JsonResponse({"status": "created", "code": schüler.code, "name": schüler.name, "klasse": schüler.klasse.name})
     return JsonResponse({"status": "unauthorized"})
 
 def createklasse(request, name):
@@ -47,7 +49,6 @@ def createklasse(request, name):
         klasse.save()
         return JsonResponse({"status": "created", "name": klasse.name})
     return JsonResponse({"status": "unauthorized"})
-
 
 def main(request):
     if request.method == "POST":
@@ -59,6 +60,7 @@ def main(request):
         form = Codeform()
     return render(request, "index.html", {'schüler': Student.objects.all().count(), 'kilometer': School.objects.get().kilometer, 'form': form})
 
+# it gets the code of the student and returns the stats.html file
 def stats(request, code):
     """
     It takes a request and a code, gets the student with that code, and then gets all the rounds that student has run.
@@ -77,7 +79,7 @@ def stats(request, code):
         return redirect("main")
 
 
-
+# it gets the 10 classes with the most kilometers and the 10 students with the most kilometers and returns the leaderboard.html file
 def leaderboard(request):
     kilometer = School.objects.get().kilometer
     #get the 10 classes with the most kilometers

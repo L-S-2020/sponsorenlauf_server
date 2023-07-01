@@ -11,7 +11,7 @@ class Student(models.Model):
     klasse = models.ForeignKey('Klasse', on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.code
+        return self.name
 
 class Klasse(models.Model):
     name = models.CharField(max_length=4)
