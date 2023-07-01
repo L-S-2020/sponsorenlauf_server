@@ -14,7 +14,7 @@ class Student(models.Model):
         return self.code
 
 class Klasse(models.Model):
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=4)
     kilometer = models.IntegerField(default=0)
 
     def __str__(self):

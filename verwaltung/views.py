@@ -80,9 +80,10 @@ def stats(request, code):
 
 def leaderboard(request):
     kilometer = School.objects.get().kilometer
-    lauf = Runde.objects.order_by("time")
-    meiste_kilometer = Student.objects.order_by("-kilometer")
-    return render(request, "leaderboard.html", {'kilometer': kilometer, 'lauf': lauf, 'meiste_kilometer': meiste_kilometer})
+    #get the 10 classes with the most kilometers
+    klassen = Klasse.objects.order_by("-kilometer")[:10]
+    meiste_kilometer = Student.objects.order_by("-kilometer")[:10]
+    return render(request, "leaderboard.html", {'kilometer': kilometer, 'klassen': klassen, 'meiste_kilometer': meiste_kilometer})
 
 def start(request):
     authorization = request.META.get('HTTP_AUTHORIZATION', None)
