@@ -10,4 +10,6 @@ urlpatterns = [
     path("api/start", views.start, name="start"),
     path("api/test", views.test, name="test"),
     path("api/createklasse/<name>", views.createklasse, name="createklasse"),
+    path("api/leaderboard", views.leaderboardapi, name="leaderboardapi"),
+    path("api/leaderboardforce", views.leaderboardforce, name="leaderboardforce"),
 ]

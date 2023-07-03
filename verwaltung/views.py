@@ -6,7 +6,7 @@ from .forms import Codeform
 from datetime import timedelta
 from django.contrib import messages
 
-
+last_kilometer = 0
 # Create your views here.
 #
 def scanned(request, code):
@@ -109,4 +109,34 @@ def test(request):
         return JsonResponse({"status": "ok"})
     else:
         return JsonResponse({"status": "unauthorized"})
+
+def leaderboardapi(request):
+    global last_kilometer
+    kilometer = School.objects.get().kilometer
+    if kilometer == last_kilometer:
+        return JsonResponse({"status": "not changed"})
+    # get the 10 classes with the most kilometers
+    last_kilometer = kilometer
+    dict_klassen = []
+    klassen = Klasse.objects.order_by("-kilometer")[:10]
+    for i in klassen:
+        dict_klassen.append({"name": i.name, "kilometer": i.kilometer})
+    dict_kilometer = []
+    meiste_kilometer = Student.objects.order_by("-kilometer")[:10]
+    for i in meiste_kilometer:
+        dict_kilometer.append({"name": i.name, "kilometer": i.kilometer})
+    return JsonResponse({"kilometer": kilometer, "klassen": dict_klassen, "meiste_kilometer": dict_kilometer, "status": "changed"})
+
+def leaderboardforce(request):
+    kilometer = School.objects.get().kilometer
+    # get the 10 classes with the most kilometers
+    dict_klassen = []
+    klassen = Klasse.objects.order_by("-kilometer")[:10]
+    for i in klassen:
+        dict_klassen.append({"name": i.name, "kilometer": i.kilometer})
+    dict_kilometer = []
+    meiste_kilometer = Student.objects.order_by("-kilometer")[:10]
+    for i in meiste_kilometer:
+        dict_kilometer.append({"name": i.name, "kilometer": i.kilometer})
+    return JsonResponse({"kilometer": kilometer, "klassen": dict_klassen, "meiste_kilometer": dict_kilometer, "status": "changed"})
 
