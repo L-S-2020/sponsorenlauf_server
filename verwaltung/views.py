@@ -140,3 +140,9 @@ def leaderboardforce(request):
         dict_kilometer.append({"name": i.name, "kilometer": i.kilometer})
     return JsonResponse({"kilometer": kilometer, "klassen": dict_klassen, "meiste_kilometer": dict_kilometer, "status": "changed"})
 
+def meter(request, code):
+    if Student.objects.filter(code=code).exists():
+        schüler = Student.objects.get(code=code)
+        return JsonResponse({"status": "ok", "meter": schüler.kilometer})
+    else:
+        return JsonResponse({"status": "code nicht gefunden"})

@@ -12,4 +12,5 @@ urlpatterns = [
     path("api/createklasse/<name>", views.createklasse, name="createklasse"),
     path("api/leaderboard", views.leaderboardapi, name="leaderboardapi"),
     path("api/leaderboardforce", views.leaderboardforce, name="leaderboardforce"),
+    path("api/meter/<code>", views.meter, name="meter"),
 ]
