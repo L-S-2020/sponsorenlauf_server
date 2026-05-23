@@ -247,43 +247,8 @@
     </div>
 
     <script>
-        // ── FLIP animation helper ───────────────────────────────────────
-        // Records positions before a DOM update, then animates each keyed
-        // element from its old position to its new one.
-        function flipUpdate(container, buildFn) {
-            const before = new Map();
-            container.querySelectorAll('[data-key]').forEach(el => {
-                before.set(el.dataset.key, el.getBoundingClientRect().top);
-            });
-
-            buildFn();
-
-            container.querySelectorAll('[data-key]').forEach(el => {
-                const key = el.dataset.key;
-                if (before.has(key)) {
-                    const delta = before.get(key) - el.getBoundingClientRect().top;
-                    if (Math.abs(delta) < 1) return;
-                    el.style.transition = 'none';
-                    el.style.transform = `translateY(${delta}px)`;
-                    requestAnimationFrame(() => requestAnimationFrame(() => {
-                        el.style.transition = 'transform 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-                        el.style.transform = '';
-                    }));
-                } else {
-                    // New entry: fade + slide in from the right
-                    el.style.transition = 'none';
-                    el.style.opacity = '0';
-                    el.style.transform = 'translateX(20px)';
-                    requestAnimationFrame(() => requestAnimationFrame(() => {
-                        el.style.transition = 'opacity 0.35s ease, transform 0.35s ease';
-                        el.style.opacity = '';
-                        el.style.transform = '';
-                    }));
-                }
-            });
-        }
-
         // ── Render helpers ──────────────────────────────────────────────
+        // Call these with data from your API to update the leaderboard.
 
         function renderStats(totalRunden, totalKm) {
             document.getElementById('total-runden').textContent = totalRunden.toLocaleString('de-DE');
@@ -293,73 +258,47 @@
         // students: [{ name, klasse, runden }, ...]  (sorted, max 12)
         function renderTopSchueler(students) {
             const container = document.getElementById('top-schueler');
-            flipUpdate(container, () => {
-                container.innerHTML = '';
-                students.forEach((s, i) => {
-                    const row = document.createElement('div');
-                    row.className = 'student-row';
-                    row.dataset.key = s.name;
-                    row.innerHTML = `<span class="rank">${i + 1}.</span><span>${s.name}</span><span class="klasse">${s.klasse}</span><span class="runden">${s.runden}</span>`;
-                    container.appendChild(row);
-                    if (i + 1 === 10) {
-                        const hr = document.createElement('hr');
-                        hr.className = 'pink-divider';
-                        container.appendChild(hr);
-                    }
-                });
+            container.innerHTML = '';
+            students.forEach((s, i) => {
+                const row = document.createElement('div');
+                row.className = 'student-row';
+                row.innerHTML = `<span class="rank">${i + 1}.</span><span>${s.name}</span><span class="klasse">${s.klasse}</span><span class="runden">${s.runden}</span>`;
+                container.appendChild(row);
+                if (i + 1 === 10) {
+                    const hr = document.createElement('hr');
+                    hr.className = 'pink-divider';
+                    container.appendChild(hr);
+                }
             });
         }
 
-        // klassen: [{ name, avg_runden }, ...]  (sorted, max 5)
+        // klassen: [{ name, runden }, ...]  (sorted, max 5)
         function renderKlassen(containerId, klassen) {
             const container = document.getElementById(containerId);
-            flipUpdate(container, () => {
-                container.innerHTML = '';
-                klassen.forEach((k, i) => {
-                    const row = document.createElement('div');
-                    row.className = 'class-row';
-                    row.dataset.key = k.name;
-                    row.innerHTML = `<span>${i + 1}.</span><span>${k.name}</span><span class="runden">${k.avg_runden.toLocaleString('de-DE')}</span>`;
-                    container.appendChild(row);
-                    if (i === 0) {
-                        const hr = document.createElement('hr');
-                        hr.className = 'pink-divider';
-                        container.appendChild(hr);
-                    }
-                });
+            container.innerHTML = '';
+            klassen.forEach((k, i) => {
+                const row = document.createElement('div');
+                row.className = 'class-row';
+                row.innerHTML = `<span>${i + 1}.</span><span>${k.name}</span><span class="runden">${k.avg_runden.toLocaleString('de-DE')}</span>`;
+                container.appendChild(row);
+                if (i === 0) {
+                    const hr = document.createElement('hr');
+                    hr.className = 'pink-divider';
+                    container.appendChild(hr);
+                }
             });
         }
 
         // runden: [{ name, klasse, runden }, ...]  (newest first, max 8)
-        // New entries slide in from the top; existing ones stay in place.
         function renderLetzteRunden(runden) {
             const container = document.getElementById('letzte-runden');
-            const existingKeys = new Set(
-                [...container.querySelectorAll('[data-key]')].map(el => el.dataset.key)
-            );
             container.innerHTML = '';
             runden.forEach(r => {
-                const key = `${r.name}-${r.runden}`;
                 const row = document.createElement('div');
                 row.className = 'recent-row';
-                row.dataset.key = key;
                 row.innerHTML = `<span>${r.name}</span><span class="klasse">${r.klasse}</span><span class="runden">${r.runden}</span>`;
-                if (!existingKeys.has(key)) {
-                    row.style.transition = 'none';
-                    row.style.opacity = '0';
-                    row.style.transform = 'translateY(-16px)';
-                }
                 container.appendChild(row);
             });
-            requestAnimationFrame(() => requestAnimationFrame(() => {
-                container.querySelectorAll('[data-key]').forEach(el => {
-                    if (el.style.opacity === '0') {
-                        el.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
-                        el.style.opacity = '';
-                        el.style.transform = '';
-                    }
-                });
-            }));
         }
 
         // ── API integration point ───────────────────────────────────────
