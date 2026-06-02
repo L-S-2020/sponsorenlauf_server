@@ -1,0 +1,10 @@
+:80 {
+    handle_path /static/* {
+        root * /srv/static
+        file_server
+    }
+
+    handle {
+        reverse_proxy sponsorenlauf-server:8000
+    }
+}

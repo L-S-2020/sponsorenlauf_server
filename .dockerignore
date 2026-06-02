@@ -1,0 +1,12 @@
+# See: https://gist.github.com/KernelA/04b4d7691f28e264f72e76cfd724d448
+# Git
+.git
+.gitignore
+.gitattributes
+clients
+images
+server
+.idea
+.venv
+db.sqlite3
+.env
