@@ -16,7 +16,7 @@ def scanned(request, code):
     if key.objects.get(key=authorization) is not None:
         schüler = Student.objects.get(code=code)
         seconds = time.time()-schüler.lastseen
-        if seconds > 0: # Change to 40 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        if seconds > 40: # Change to 40 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             rundennummer = schüler.anzahl_runden() + 1
             zeit = timedelta(seconds=seconds)
             runde = Runde.objects.create(student=schüler, number=rundennummer, time=zeit)

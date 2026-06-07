@@ -4,7 +4,7 @@ import pandas as pd
 
 load_dotenv()
 key = os.environ.get('key')
-url = 'http://127.0.0.1:8000/api/'
+url = 'http://192.168.1.132/api/'
 
 df = pd.read_excel('Schüler.xlsx')
 for i in range(len(df.index)):

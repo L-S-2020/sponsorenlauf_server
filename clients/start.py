@@ -1,7 +1,9 @@
 import os, requests, json
+from dotenv import load_dotenv
 
-key = 'VEXKrIDx0i9oKiOFKXzTB57ny4MSqHBh'
-url = 'http://192.168.1.105/api/'
+load_dotenv()
+key = os.environ.get('key')
+url = 'http://192.168.1.132/api/'
 
 
 h = requests.get(url + 'start', headers={'Authorization': key})

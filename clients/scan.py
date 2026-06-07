@@ -28,7 +28,7 @@ def show_result(title, body_text, style):
     console.clear()
     console.print(Panel(
         Align(content, align="center", vertical="middle"),
-        title=title,+
+        title=title,
         style=f"on {style}",
         border_style=f"bold {style}",
         expand=True,
